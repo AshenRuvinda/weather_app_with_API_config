@@ -1,0 +1,40 @@
+// Apply the Android and Kotlin plugins first
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+}
+
+// Then apply the Flutter plugin separately
+apply plugin: "dev.flutter.flutter-gradle-plugin"
+
+android {
+    namespace "com.yourcompany.yourapp" // Required for AGP 8.0+
+    compileSdk 35
+    ndkVersion "23.1.7779620"
+
+    defaultConfig {
+        applicationId "com.yourcompany.yourapp"
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+// Disable the conflicting task if it exists
+tasks.matching { task -> task.name == 'generateLockfiles' }.configureEach {
+    enabled = false
+}
